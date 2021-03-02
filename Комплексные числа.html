@@ -1,0 +1,42 @@
+<script type="text/javascript">
+	class ComplexNumber {
+		constructor(i,j){
+			this.valid=i;
+			this.imaginary=j;
+		}
+
+		add(a,b) {
+			this.valid=a.valid+b.valid;
+			this.imaginary=a.imaginary+b.imaginary;
+			document.write('Сумма: '+this.valid+', '+this.imaginary+'<br>');
+		}
+
+		substract(a,b) {
+			this.valid=a.valid-b.valid;
+			this.imaginary=a.imaginary-b.imaginary;
+			document.write('Разность: '+this.valid+', '+this.imaginary+'<br>');
+		}
+
+		multiply(a,b) {
+			this.valid=a.valid*b.valid-a.imaginary*b.imaginary;
+			this.imaginary=b.valid*a.imaginary+a.valid*b.imaginary;
+			document.write('Произведение: '+this.valid+', '+this.imaginary+'<br>');
+		}
+
+		divide(a,b) {
+			this.valid=(a.valid*b.valid+a.imaginary*b.imaginary)/(b.valid**2+b.imaginary**2);
+			this.imaginary=(b.valid*a.imaginary-a.valid*b.imaginary)/(b.valid**2+b.imaginary**2);
+			document.write('Деление: '+this.valid.toFixed(4)+', '+this.imaginary.toFixed(4)+'<br>');
+		}
+	}
+
+	let a=new ComplexNumber(4,7);
+	document.write('Число a: '+a.valid+', '+a.imaginary+'<br>');
+	let b=new ComplexNumber(-3,4);
+	document.write('Число b: '+b.valid+', '+b.imaginary+'<br>');
+	let c=new ComplexNumber;
+	c.add(a,b);
+	c.substract(a,b);
+	c.multiply(a,b);
+	c.divide(a,b);
+</script>
