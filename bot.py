@@ -4,7 +4,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
 
 wikipedia.set_lang('ru')
-bot = telebot.TeleBot('5783944601:AAGi3Kvl9Yy_LE-O2QfMNT2wLS2mIzX_9hM')
+bot = telebot.TeleBot('TOKEN')
 
 
 def clean_str(r):
