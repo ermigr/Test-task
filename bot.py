@@ -96,7 +96,7 @@ user['voice'] = {}
 
 @bot.message_handler(commands=['start'])
 def _(message):
-	bot.send_message(message.chat.id,'Я бот, готов вам помочь\U0001F916')
+	bot.send_message(message.chat.id,'Здравствуйте, я бот\U0001F916')
 	bot.send_message(message.chat.id,'Можем просто пообщаться\U0001F648')
 	bot.send_message(message.chat.id,'Либо помогу перевести в текст голосовое сообщение\U0001F5E3\U0001F4AC') 
 
