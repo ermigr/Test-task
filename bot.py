@@ -68,7 +68,7 @@ def getwiki(text):
 
 
 def wrong(message):
-	a = f'{clean_str(user[message.chat.id])}\{clean_str(message.text)} \n'
+	a = f"{clean_str(user['text'][message.chat.id])}\{clean_str(message.text)} \n"
 	with open('dialogues.txt', 'a', encoding='utf-8') as f:
 		f.write(a)
 	fit()
