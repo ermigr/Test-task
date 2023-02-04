@@ -9,7 +9,7 @@ r = sr.Recognizer()
 vectorizer = CountVectorizer()
 clf = LogisticRegression()
 
-TOKEN = '5783944601:AAGi3Kvl9Yy_LE-O2QfMNT2wLS2mIzX_9hM'
+TOKEN = '#'
 bot = telebot.TeleBot(TOKEN)
 wikipedia.set_lang('ru')
 
@@ -141,4 +141,4 @@ def _(call):
 	elif call.data == 'ru' or call.data == 'en':
 		bot.send_message(id, r.recognize_google(user['voice'][id], language=call.data))
 
-# bot.infinity_polling()
+bot.infinity_polling()
