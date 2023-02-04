@@ -16,6 +16,7 @@ wikipedia.set_lang('ru')
 
 def clean_str(r):
 	r = r.lower()
+	r = r.replace('\n', ' ')
 	r = [c for c in r if c.isalpha() or c.isspace() or c == '-']
 	return ''.join(r)
 
