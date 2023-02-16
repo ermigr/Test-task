@@ -1,55 +1,55 @@
 import telebot, wikipedia, os
+import re, string
+import spacy
 import speech_recognition as sr
 from telebot.util import quick_markup
 from pydub import AudioSegment
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.linear_model import LogisticRegression
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn import svm
 
+wikipedia.set_lang('ru')
+nlp = spacy.load('ru_core_news_sm')
+svc = svm.SVC()
 r = sr.Recognizer()
-vectorizer = CountVectorizer()
-clf = LogisticRegression()
 
 TOKEN = '#'
 bot = telebot.TeleBot(TOKEN)
-wikipedia.set_lang('ru')
 
 
-def clean_str(r):
-	r = r.lower()
-	r = r.replace('\n', ' ')
-	r = [c for c in r if c.isalpha() or c.isspace() or c == '-']
-	return ''.join(r)
+def str_without_br(text):
+	return text.replace('\n', ' ')
+
+
+def lemmatization(text):
+    text = re.sub(f'[{string.punctuation}]', ' ', text)
+    return ' '.join(token.lemma_ for token in nlp(text))
+
+vectorizer = TfidfVectorizer(preprocessor=lemmatization, min_df=0.1, max_df=0.9, max_features=1000)
 
 
 def fit():
 	with open('dialogues.txt', encoding='utf-8') as f:
 		content = f.read()
 	
-	blocks = content.split('\n')
-	dataset = []
-	
-	for block in blocks:
-		replicas = block.split('\\')
-		if replicas[0]:
-			pair = [clean_str(replicas[0]), replicas[1]]
-			dataset.append(pair)
-	
+	replicas = content.split('\n')
 	X_text = []
 	y = []
-
-	for question, answer in dataset[:10000]:
-		X_text += [question]
-		y += [answer]
+	
+	for replica in replicas:
+		question_answer = replica.split('\\')
+		if question_answer[0]:
+			X_text.append(question_answer[0])
+			y.append(question_answer[1])
 
 	X = vectorizer.fit_transform(X_text)
-	clf.fit(X, y)
+	svc.fit(X, y)
 
 fit()
 
 
 def get_generative_replicas(question):
 	text_vector = vectorizer.transform([question])
-	reply = clf.predict(text_vector)[0]
+	reply = svc.predict(text_vector)[0]
 	return reply
 
 
@@ -69,7 +69,7 @@ def getwiki(text):
 
 
 def wrong(message):
-	a = f"{clean_str(user['text'][message.chat.id])}\{clean_str(message.text)} \n"
+	a = f"{user['text'][message.chat.id]}\{str_without_br(message.text)} \n"
 	with open('dialogues.txt', 'a', encoding='utf-8') as f:
 		f.write(a)
 	fit()
@@ -110,7 +110,7 @@ def _(message):
 		'Дообучить': {'callback_data': 'learn'},
 		'Википедия': {'callback_data': 'wiki'}
 	}, row_width=2)
-	bot.send_message(message.chat.id, get_generative_replicas(message.text).capitalize(), reply_markup=markup)
+	bot.send_message(message.chat.id, get_generative_replicas(message.text), reply_markup=markup)
 
 
 @bot.message_handler(content_types=['audio', 'voice'])
