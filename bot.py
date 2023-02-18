@@ -21,8 +21,8 @@ def str_without_br(text):
 
 
 def lemmatization(text):
-    text = re.sub(f'[{string.punctuation}]', ' ', text)
-    return ' '.join(token.lemma_ for token in nlp(text))
+	text = re.sub(f'[{string.punctuation}]', ' ', text)
+	return ' '.join(token.lemma_ for token in nlp(text))
 
 vectorizer = TfidfVectorizer(preprocessor=lemmatization, min_df=0.1, max_df=0.9, max_features=1000)
 
