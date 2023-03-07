@@ -60,7 +60,7 @@ with open('input.txt') as f:
 	from_to = [int(i) for i in f.readline().split()]
 
 cities_neighbors = sorted(cities, key=lambda x: abs(x[0] - cities[from_to[0]-1][0]) +
-												abs(x[1] - cities[from_to[0]-1][1]))
+			  			abs(x[1] - cities[from_to[0]-1][1]))
 weights = {} 
 
 for i in range(len(cities_neighbors)):
@@ -69,7 +69,7 @@ weights[0] = 0
 
 def distance(a, b):
 	return (abs(cities_neighbors[b][0] - cities_neighbors[a][0]) +
-		    abs(cities_neighbors[b][1] - cities_neighbors[a][1]))
+	        abs(cities_neighbors[b][1] - cities_neighbors[a][1]))
 
 for i, _ in enumerate(cities_neighbors):
 	for city in [city for city, _ in enumerate(cities_neighbors) if city > i]:
