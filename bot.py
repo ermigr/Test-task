@@ -177,6 +177,6 @@ def _(call):
 		audiofile = translator(user['voice'][id])
 		sex = classifications[classificator(user['voice'][id])[0]]
 		bot.send_message(id, f'На записи слышен {sex} голос')
-		bot.send_message(id, r.recognize_google(audiofile, language=call.data))
+		bot.send_message(id, f'"{r.recognize_google(audiofile, language=call.data)}"')
 
 bot.infinity_polling()
