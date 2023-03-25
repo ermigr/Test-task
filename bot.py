@@ -92,9 +92,6 @@ def translator(downloaded_file):
 	with sr.AudioFile('audio.wav') as source:
 		audio = r.record(source)
 		r.adjust_for_ambient_noise(source)
-
-	os.remove('audio.py')
-	os.remove('audio.wav')
 	return audio
 
 
@@ -111,11 +108,6 @@ def cut_sample(sample):
 
 
 def classificator(downloaded_file):
-	with open('audio.py', 'wb') as new_file:
-		new_file.write(downloaded_file)
-	track = AudioSegment.from_file('audio.py')
-	track.export('audio.wav', format='wav')
-
 	y_, sr = librosa.load('audio.wav')
 	a = librosa.feature.melspectrogram(y=y_, sr=sr)
 
@@ -182,9 +174,9 @@ def _(call):
 	elif call.data == 'wiki':
 		bot.send_message(id, getwiki(user['text'][id]))
 	elif call.data == 'ru' or call.data == 'en':
+		audiofile = translator(user['voice'][id])
 		sex = classifications[classificator(user['voice'][id])[0]]
 		bot.send_message(id, f'На записи слышен {sex} голос')
-		audiofile = translator(user['voice'][id])
 		bot.send_message(id, r.recognize_google(audiofile, language=call.data))
 
 bot.infinity_polling()
