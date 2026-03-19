@@ -1,0 +1,82 @@
+Блок 1: Теория вероятности и логика
+Задание 1: Фермер
+3.99
+Задание 2: Кулинарное соревнование
+26.8
+Задание 3: Одинокая дорога
+63.2    93.3
+
+
+Блок 2: Python
+Задание 1: Изоморфизмы
+def is_isomorphic(a, b):
+    if len(a) != len(b):
+       return False
+
+    else:
+        dic = {}
+        for x, y in zip(a, b):
+            if x in dic:
+                if dic[x] != y:
+                    return False
+
+            else:
+                if y in dic.values():
+                    return False
+                dic[x] = y
+        return True
+Сложность O(n), память O(k), где k - длина алфавита
+      
+Задание 2: Натуральная последовательность
+def missing_number(nums):
+    for i, j in zip(range(nums[0], nums[-1] + 1), nums):
+        if i != j:
+            return i
+Сложность O(n), память O(1)
+
+Задание 3: Факторизация
+def prime_factor(n):
+    answer = []
+    for i in range(2, n + 1):
+        while n % i == 0:
+            answer.append(i)
+            n /= i
+    return answer
+Сложность O(n), память O(logn)
+
+
+Блок 3: SQL
+Задание 1: Абитуриенты
+SELECT *, DENSE_RANK() OVER(ORDER BY scores DESC) AS rating
+FROM examination
+ORDER BY 1
+
+Задание 2: FULL JOIN
+Минимально 30 и максимально 50 строк.
+
+Задание 3: Покупки
+SELECT client_id
+FROM account a
+INNER JOIN transaction t ON a.id = t.account_id
+WHERE transaction_date >= NOW() - INTERVAL 1 MONTH
+GROUP BY 1
+HAVING SUM(amount) < 5000
+
+
+Блок 4: Статистика и АБ-тесты
+Задание 1: Воодушевленное руководство
+Тест репрезентативен относительно своей генеральной совокупности: таких же небольших городов,
+можем применять только в подобных городах.
+Наличие эффекта подтвердило потенциал идеи, поэтому сразу применять по всем городам не будем,
+но можем провести эксперимент в других городах.
+
+Задание 2: Основной показатель в статистике
+Вероятность наблюдения такого или более экстремального результата при условии, что нулевая гипотеза верна.
+
+Задание 3: Параметрический тест
+t-критерий Стьюдента применим, поскольку размер выборки большой, а значительные выбросы отсутствуют.
+
+
+
+
+https://docs.google.com/document/d/1gFSIUKggL62JAMTHOz2pJTy2t13QYCnax-bwkSzH0vU/edit?usp=sharing
